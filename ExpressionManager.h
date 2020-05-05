@@ -14,16 +14,16 @@ public:
 	virtual ~ExpressionManager() {}
 
 	/*
-	* Checks whether an expression is balanced on its parentheses
+	* Checks whether an expression has balanced parentheses
 	*
 	* - The given expression will have a space between every number or operator
 	*
-	* @return true if expression is balanced
-	* @return false otherwise
+	* return true if expression is balanced
+	* return false otherwise
 	*/
 	bool isBalanced(string expression);
 
-	/**
+	/*
 	* Converts a postfix expression into an infix expression
 	* and returns the infix expression.
 	*
