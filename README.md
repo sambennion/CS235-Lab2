@@ -1,4 +1,4 @@
-# Lab3-Expressions
+# Lab2-Expressions
 ## Purpose
 To become familiar with the use of stacks as data structures.
 
