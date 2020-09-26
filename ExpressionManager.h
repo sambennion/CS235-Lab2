@@ -9,6 +9,10 @@ using namespace std;
 
 class ExpressionManager: public ExpressionManagerInterface
 {
+private:
+	bool isMatchedParinth(char left, char right);
+	bool isLeftParinth(char parinth);
+	bool isRightParinth(char parinth);
 public:
 	ExpressionManager() {}
 	virtual ~ExpressionManager() {}
