@@ -2,6 +2,7 @@
 
 bool ExpressionManager::isBalanced(string expression){
 	cout << "isBalanced: " << expression << endl;
+	
 	return true; //REPLACE
 }
 
