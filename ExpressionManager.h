@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <stack>
+#include <vector>
+#include <sstream>
 #include "ExpressionManagerInterface.h"
 
 using namespace std;
@@ -13,6 +15,11 @@ private:
 	bool isMatchedParinth(char left, char right);
 	bool isLeftParinth(char parinth);
 	bool isRightParinth(char parinth);
+	vector<string> parseTokens(string expression);
+	bool isOperator(string token);
+	bool isInt(char token);
+	void process_operator(stack<string> &opStack, string &postfix, string &op);
+	bool hasPrecedence(string op, string topStackOp);
 public:
 	ExpressionManager() {}
 	virtual ~ExpressionManager() {}
