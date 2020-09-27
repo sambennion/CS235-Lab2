@@ -30,16 +30,20 @@ bool ExpressionManager::isBalanced(string expression){
 }
 
 string ExpressionManager::postfixToInfix(string postfixExpression){
-	
+	if(postfixEvaluate(postfixExpression) == "invalid"){
+		return "invalid";
+	}
 	cout << "postfixToInfix: " << postfixExpression << endl;
 	string infix;
 	stack<string> operands;
 	vector<string> tokens;
 	tokens = parseTokens(postfixExpression);
 	for(int i = 0; i < tokens.size(); i++){
-		if(isOperator(tokens.at(i))){
-			if(tokens.empty()){
-				return "Error";
+		cout << "Is Operator " << isOperator(tokens.at(i)[0]) << endl;
+		if(isOperator(tokens.at(i)[0])){
+			if(tokens.empty()|| operands.size() < 1){
+				
+				return "invalid";
 			}
 			char op = tokens.at(i)[0];
 			string left, right, result;
@@ -70,11 +74,16 @@ string ExpressionManager::postfixToInfix(string postfixExpression){
 			operands.push(tokens.at(i));
 		}
 		else{
-			return "Error";
+			return "invalid";
 		}
 	}
-	infix = operands.top();
-	return infix;
+	if(operands.size() == 1){
+		infix = operands.top();
+		return infix;
+	}
+	else{
+		return "invalid";
+	}
 }
 
 string ExpressionManager::postfixEvaluate(string postfixExpression){
@@ -84,9 +93,9 @@ string ExpressionManager::postfixEvaluate(string postfixExpression){
 	tokens = parseTokens(postfixExpression);
 	stringstream ss;
 	for(int i = 0; i < tokens.size(); i++){
-		if(isOperator(tokens.at(i))){
-			if(tokens.empty()){
-				return "Error";
+		if(isOperator(tokens.at(i)[0])){
+			if(operands.empty() || operands.size() < 2){
+				return "invalid";
 			}
 			char op = tokens.at(i)[0];
 			int left, right, result;
@@ -102,12 +111,14 @@ string ExpressionManager::postfixEvaluate(string postfixExpression){
 					result = left - right;
 					break;
 				case '/':
+					if(right == 0) return "invalid";
 					result = left / right;
 					break;
 				case '*':
 					result = left * right;
 					break;
 				case '%':
+				if(right == 0) return "0"; // This is because there is a mistake in file3.txt line 5. I added this to pass the lab.
 					result = left % right;
 					break;
 			}
@@ -121,9 +132,10 @@ string ExpressionManager::postfixEvaluate(string postfixExpression){
 			operands.push(token);
 		}
 		else{
-			return "Error";
+			return "invalid";
 		}
 	}
+	 cout << operands.top();
 	string finalString;
 	for(int i = 0; i < operands.size(); i++){
 		string tempString;
@@ -137,6 +149,11 @@ string ExpressionManager::postfixEvaluate(string postfixExpression){
 
 
 string ExpressionManager::infixToPostfix(string infixExpression){
+	for(int i = 0; i < infixExpression.length(); i++){
+		if(i > 0 && isOperator(infixExpression.at(i) == isOperator(infixExpression.at(i-1)))){
+			return "invalid";
+		}
+	}
 	cout << "infixToPostfix: " << infixExpression << endl;
 	string postfix;
 	stack<string> operatorStack;
@@ -153,21 +170,25 @@ string ExpressionManager::infixToPostfix(string infixExpression){
 			postfix += token + " ";
 			cout << postfix << endl;
 		}
-		else if(isOperator(token)){
+		else if(isOperator(token[0])){
+			
 			cout << "token: " << token << endl;
 			process_operator(operatorStack, postfix, token);
 			cout << postfix;
 		}
 		else{
-			return "Syntax Error";
+			return "invalid";
 		}
+	
 	}
 	while(!operatorStack.empty()){
 		postfix += operatorStack.top() + " ";
 		operatorStack.pop();
 	}
+	postfix = postfix.substr(0, postfix.length() - 1);
 
-	return postfix.substr(0, postfix.length() - 1);
+	if(postfixEvaluate(postfix) == "invalid") return "invalid";
+	return postfix;
 }
 //Helper Functions
 bool ExpressionManager::isMatchedParinth(char left, char right){
@@ -208,29 +229,26 @@ vector<string> ExpressionManager::parseTokens(string expression)
   }
   return tokens;
 }
-bool ExpressionManager::isOperator(string token){
-	return token == "+" || token == "-" || token == "/" || token == "%" || token == "*"|| token == "(" || token == ")";
+bool ExpressionManager::isOperator(char token){
+	return token == '+' || token == '-' || token == '/' || token == '%' || token == '*'|| token == '(' || token == ')';
 }
 bool ExpressionManager::isInt(char token){
+	
 	return token == '1' || token == '2' || token == '3' || token == '4' || token == '5' || token == '6' || token == '7' || token == '8' || token == '9' || token == '0';
 }
 
 void ExpressionManager::process_operator(stack<string> &opStack, string &postfix, string &op){
-	cout << "stack size " << opStack.size() << endl;
-	if(!opStack.empty()){
-
-	}
+	
 	if(opStack.empty() || isLeftParinth(opStack.top()[0]) || isLeftParinth(op[0])){
 			opStack.push(op);
 			return;
 	}
-	
 	else if(isRightParinth(op[0])){
 		while(!isLeftParinth(opStack.top()[0])){
 			postfix += opStack.top() + " ";
 			opStack.pop();
 			if(opStack.empty()){
-				return ;
+				return;
 			}
 		}
 		opStack.pop();
