@@ -1,0 +1,39 @@
+out_file1.txt
+out_file2.txt
+out_file3.txt
+out_file4.txt
+out_file5.txt
+postfixToInfix 3 + 3 /					      <
+  invalid						      <
+postfixToInfix 3 3 4 +					      <
+  invalid						      <
+postfixToInfix *					      <
+  invalid						      <
+postfixToInfix + 3 3					      <
+  invalid						      <
+postfixToInfix 3 3					      <
+  invalid						      <
+postfixToInfix five plus three				      <
+  invalid						      <
+postfixToInfix 4.3 2 +					      <
+  invalid						      <
+postfixToInfix 56 67 34 + - * 1				      <
+  invalid						      <
+infixToPostfix { { 2 + 4 }				      <
+  invalid						      <
+infixToPostfix 2 + a					      <
+  invalid						      <
+infixToPostfix 3 $ 3					      <
+  invalid						      <
+infixToPostfix 4 * ( 2 + 4 - ( 2 + )  ) - 4 / 5		      <
+  invalid						      <
+infixToPostfix 4 * ( 2 * + 4 - ( 2 + 2 ) ) - 4 / 5	      <
+  invalid						      <
+infixToPostfix ( 3 + 5 - ( 4 + 2 ) }			      <
+  invalid						      <
+infixToPostfix 3 + 4.2					      <
+  invalid						      <
+infixToPostfix -					      <
+  invalid						      <
+infixToPostfix @					      <
+  invalid						      <
