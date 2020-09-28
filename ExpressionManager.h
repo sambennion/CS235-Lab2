@@ -17,7 +17,7 @@ private:
 	bool isRightParinth(char parinth);
 	vector<string> parseTokens(string expression);
 	bool isOperator(char token);
-	bool isInt(char token);
+	bool isInt(string token);
 	void process_operator(stack<string> &opStack, string &postfix, string &op);
 	bool hasPrecedence(string op, string topStackOp);
 public:

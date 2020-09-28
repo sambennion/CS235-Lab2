@@ -25,7 +25,7 @@ postfixToInfix 3 3
 postfixToInfix five plus three
   invalid
 postfixToInfix 4.3 2 +
-  ( 4.3 + 2 )
+  invalid
 postfixToInfix 56 67 34 + - * 1
   invalid
 infixToPostfix { { 2 + 4 }
@@ -41,7 +41,7 @@ infixToPostfix 4 * ( 2 * + 4 - ( 2 + 2 ) ) - 4 / 5
 infixToPostfix ( 3 + 5 - ( 4 + 2 ) }
   invalid
 infixToPostfix 3 + 4.2
-  3 4.2 +
+  invalid
 infixToPostfix -
   invalid
 infixToPostfix @

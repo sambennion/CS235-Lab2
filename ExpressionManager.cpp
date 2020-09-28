@@ -1,7 +1,7 @@
 #include "ExpressionManager.h"
 using namespace std;
 bool ExpressionManager::isBalanced(string expression){
-	cout << "isBalanced: " << expression << endl;
+	//cout << "isBalanced: " << expression << endl;
 	
 	bool balanced = true;
 	stack<char> stack;
@@ -33,13 +33,13 @@ string ExpressionManager::postfixToInfix(string postfixExpression){
 	if(postfixEvaluate(postfixExpression) == "invalid"){
 		return "invalid";
 	}
-	cout << "postfixToInfix: " << postfixExpression << endl;
+	//cout << "postfixToInfix: " << postfixExpression << endl;
 	string infix;
 	stack<string> operands;
 	vector<string> tokens;
 	tokens = parseTokens(postfixExpression);
 	for(int i = 0; i < tokens.size(); i++){
-		cout << "Is Operator " << isOperator(tokens.at(i)[0]) << endl;
+		//cout << "Is Operator " << isOperator(tokens.at(i)[0]) << endl;
 		if(isOperator(tokens.at(i)[0])){
 			if(tokens.empty()|| operands.size() < 1){
 				
@@ -70,7 +70,7 @@ string ExpressionManager::postfixToInfix(string postfixExpression){
 			}
 			operands.push(result);
 		}
-		else if(isInt(tokens.at(i)[0])){
+		else if(isInt(tokens.at(i))){
 			operands.push(tokens.at(i));
 		}
 		else{
@@ -87,7 +87,7 @@ string ExpressionManager::postfixToInfix(string postfixExpression){
 }
 
 string ExpressionManager::postfixEvaluate(string postfixExpression){
-	cout << "postfixEvaluate: " << postfixExpression << endl;
+	//cout << "postfixEvaluate: " << postfixExpression << endl;
 	stack<int> operands;
 	vector<string> tokens;
 	tokens = parseTokens(postfixExpression);
@@ -124,7 +124,7 @@ string ExpressionManager::postfixEvaluate(string postfixExpression){
 			}
 			operands.push(result);
 		}
-		else if(isInt(tokens.at(i)[0])){
+		else if(isInt(tokens.at(i))){
 			ss << tokens.at(i);
 			int token;
 			ss >> token;
@@ -135,7 +135,7 @@ string ExpressionManager::postfixEvaluate(string postfixExpression){
 			return "invalid";
 		}
 	}
-	 cout << operands.top();
+	 //cout << operands.top();
 	string finalString;
 	for(int i = 0; i < operands.size(); i++){
 		string tempString;
@@ -154,7 +154,7 @@ string ExpressionManager::infixToPostfix(string infixExpression){
 			return "invalid";
 		}
 	}
-	cout << "infixToPostfix: " << infixExpression << endl;
+	//cout << "infixToPostfix: " << infixExpression << endl;
 	string postfix;
 	stack<string> operatorStack;
 	vector<string> tokens;
@@ -165,16 +165,16 @@ string ExpressionManager::infixToPostfix(string infixExpression){
 	string token;
 	for(int i = 0; i < tokens.size(); i++){
 		token = tokens[i];
-		cout << "Token: " << token << endl;
-		if(isInt(token[0])){
+		//cout << "Token: " << token << endl;
+		if(isInt(token)){
 			postfix += token + " ";
-			cout << postfix << endl;
+			//cout << postfix << endl;
 		}
 		else if(isOperator(token[0])){
 			
-			cout << "token: " << token << endl;
+			//cout << "token: " << token << endl;
 			process_operator(operatorStack, postfix, token);
-			cout << postfix;
+			//cout << postfix;
 		}
 		else{
 			return "invalid";
@@ -232,9 +232,14 @@ vector<string> ExpressionManager::parseTokens(string expression)
 bool ExpressionManager::isOperator(char token){
 	return token == '+' || token == '-' || token == '/' || token == '%' || token == '*'|| token == '(' || token == ')';
 }
-bool ExpressionManager::isInt(char token){
-	
-	return token == '1' || token == '2' || token == '3' || token == '4' || token == '5' || token == '6' || token == '7' || token == '8' || token == '9' || token == '0';
+bool ExpressionManager::isInt(string token){
+	stringstream ss;
+	ss << token;
+	int evalInt;
+	ss >> evalInt;
+	return to_string(evalInt) == token;
+	/*
+	return token == '1' || token == '2' || token == '3' || token == '4' || token == '5' || token == '6' || token == '7' || token == '8' || token == '9' || token == '0';*/
 }
 
 void ExpressionManager::process_operator(stack<string> &opStack, string &postfix, string &op){
@@ -258,7 +263,7 @@ void ExpressionManager::process_operator(stack<string> &opStack, string &postfix
 		while(!opStack.empty() && hasPrecedence(op, opStack.top())){
 			
 			postfix += opStack.top() + " ";
-			cout << postfix << endl;
+			//cout << postfix << endl;
 			opStack.pop();
 			
 
@@ -268,7 +273,6 @@ void ExpressionManager::process_operator(stack<string> &opStack, string &postfix
 	}
 	
 }
-//test
 
 bool ExpressionManager::hasPrecedence(string op, string topStackOp){
 	int opPrecedence = 0;
